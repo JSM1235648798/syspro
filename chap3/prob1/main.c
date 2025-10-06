@@ -1,39 +1,29 @@
 #include <stdio.h>
 #include <string.h>
+#include "copy.h"
 
-#define SIZE 100
+char line[MAXLINE];
+char longest[MAXLINE];
 
 int main() {
-    char arr[5][SIZE];
-    int i = 0;
+    int len;
+    int max = 0;
 
-    
-    while (i < 5) {
-        printf( i + 1);
-        fgets(arr[i], SIZE, stdin);
+    while (fgets(line, MAXLINE, stdin) != NULL) {
+        len = strlen(line);
+        if (line[len - 1] == '\n') { 
+            line[len - 1] = '\0';  
+            len--;
+        }
 
-      ê
-        arr[i][strcspn(arr[i], "\n")] = 0;
-        i++;
-    }
-
-    
-    for (int x = 0; x < 4; x++) {
-        for (int y = x + 1; y < 5; y++) {
-            if (strlen(arr[x]) < strlen(arr[y])) {
-                char temp[SIZE];
-                strcpy(temp, arr[x]);
-                strcpy(arr[x], arr[y]);
-                strcpy(arr[y], temp);
-            }
+        if(len > max) {
+            max = len;
+            copy(line, longest);
         }
     }
 
-   
-    for (int j = 0; j < 5; j++) {
-        printf("%s\n", arr[j]);
-    }
+    if(max > 0)
+        printf("%s\n", longest);
 
     return 0;
 }
-
