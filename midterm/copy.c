@@ -14,7 +14,7 @@ int main(int argc, char *argv[])
 		return 2;
 	}
 
-	fp2 = fopen(argv[2] "w");
+	fp2 = fopen(argv[2],"w");
 	while((c = fgetc(fp1)) != EOF)
 		fputc(c,fp2);
 

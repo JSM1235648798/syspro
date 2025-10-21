@@ -1,8 +1,0 @@
-struct book{
-	int id;
-	char name[20];
-	char author[20];
-	int year;
-	int numofborrow;
-	int borrow;
-}
