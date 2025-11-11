@@ -1,18 +1,47 @@
 #include <stdio.h>
-#include "db.dat"
+#include <stdlib.h>
 
-int main(int argc, char* argv[])
+typedef struct {
+    int id;
+    char bookname[30];
+    char author[30];
+    int year;
+    int numofborrow;
+    int borrow;
+} BOOK;
+
+int main(void)
 {
-	struct student rec;
-	FILE *fp;
-	if(argc != 2){
-		fprintf(stderr,"How to use: %s FileName\n", argv[0]);
-		return 1;
-	}
-	fp = fopen(argc[1], "w");
-	printf("%-10s %-8s %-6s %-4s %-2s %-1s\n", "id" , "bookname", "author", "year", "numofborrow", "borrow");
-	while(scanf("%d %s %s %d %d %d",&rec.id, rec.name, rec.author, &rec.year, &rec.numofborrow, &rec.borrow)==6)
-		fprintf(fp," %d %s %s %d %d %d", rec.id, rec.name, rec.author, rec.year, rec.numofborrow, rec.borrow);
-	fclose(fp);
-	return 0;
+    BOOK books[10];
+    FILE *fp = fopen("db.dat", "rb");
+    if (fp == NULL) return 1;
+
+    int count = fread(books, sizeof(BOOK), 10, fp);
+    fclose(fp);
+
+    int mode;
+    scanf("%d", &mode);
+
+    if (mode == 0)
+        printf("0: list of all books, 1: list of available books ) 0\n");
+    else if (mode == 1)
+        printf("0: list of all books, 1: list of available books ) 1\n");
+
+    printf("id  %-12s %-12s %-8s %-12s %-8s\n", "bookname", "author", "year", "numofborrow", "borrow");
+    printf("---------------------------------------------------------------\n");
+
+    for (int i = 0; i < count; i++) {
+        if (mode == 0 || (mode == 1 && books[i].borrow == 0)) {
+            printf("%-3d %-12s %-12s %-8d %-12d %-8s\n",
+                   books[i].id,
+                   books[i].bookname,
+                   books[i].author,
+                   books[i].year,
+                   books[i].numofborrow,
+                   books[i].borrow ? "True" : "False");
+        }
+    }
+
+    return 0;
 }
+

@@ -1,18 +1,27 @@
 #include <stdio.h>
-#include "db.dat"
-int main(int argc, char* argv[])
+
+typedef struct {
+    int id;
+    char bookname[30];
+    char author[30];
+    int year;
+    int numofborrow;
+    int borrow;
+} BOOK;
+
+int main(void)
 {
-	struct book rec;
-	FILE *fp;
-	if(argc != 2){
-		fprintf(stderr, "How to use: FileName\n",argv[0]);
-		exit(1);
-	}
-	fp = fopen(argv[1],"wb");
-	printf("%-10s %-8s %-6s %-4s %-2s %0s", "id"," bookname", "author", "year", "numofborrow", "borrow");
-	while(scnf("%d %s %s %d %d %d",&rec.id rec.name, rec.author, &rec.year, &rec.numofborrow, &borrow)== 6)
-		fwrite(&rec,sizeof(rec), 1,fp);
-	fclose(fp);
-	exit(0);
+    BOOK books[4] = {
+        {1, "1984", "George", 1949, 7, 0},
+        {2, "Luster", "Raven", 2020, 3, 1},
+        {3, "Hamnet", "Maggie", 2020, 1, 0},
+        {4, "theWish", "Nocholas", 2021, 2, 1}
+    };
+
+    FILE *fp = fopen("db.dat", "wb");
+    if (fp == NULL) return 1;
+    fwrite(books, sizeof(BOOK), 4, fp);
+    fclose(fp);
+    return 0;
 }
 
